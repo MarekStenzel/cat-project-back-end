@@ -10,7 +10,7 @@ interface Address {
 }
 
 export interface User extends Document {
-  name: string;
+  username: string;
   readonly password: string;
   address: Address;
   crypto: string;

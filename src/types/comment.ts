@@ -3,6 +3,6 @@ import { User } from './user';
 
 export interface Comment extends Document {
   user: User;
-  description: string;
+  text: string;
   created: Date;
 }

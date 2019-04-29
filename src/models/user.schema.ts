@@ -1,7 +1,8 @@
 import * as mongoose from 'mongoose';
+import * as bcrypt from 'bcrypt';
 
 export const UserSchema = new mongoose.Schema({
-  name: String,
+  username: String,
   password: String,
   address: {
     addr1: String,
@@ -12,8 +13,18 @@ export const UserSchema = new mongoose.Schema({
     zip: Number,
   },
   crypto: String,
-  created: {
-    type: Date,
-    default: Date.now,
-  },
+  created: { type: Date, default: Date.now },
+});
+
+UserSchema.pre('save', async function(next: mongoose.HookNextFunction) {
+  try {
+    if (!this.isModified('password')) {
+      return next();
+    }
+    const password = 'password';
+    this[password] = await bcrypt.hash(this[password], 10);
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 });

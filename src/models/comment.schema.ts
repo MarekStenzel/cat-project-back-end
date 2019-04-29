@@ -5,7 +5,7 @@ export const CommentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
-  description: String,
+  text: String,
   created: {
     type: Date,
     default: Date.now,
