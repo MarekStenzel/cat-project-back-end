@@ -12,6 +12,7 @@ export interface Address {
 export interface User extends Document {
   username: string;
   readonly password: string;
+  email: string;
   address: Address;
   crypto: string;
   created: Date;
