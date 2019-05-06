@@ -1,13 +1,20 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserService } from './user.service';
 import { UserSchema } from '../models/user.schema';
+import { HttpExceptionFilter } from './http-exception.filter';
+import { UserService } from './user.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{name: 'User', schema: UserSchema}]),
+    MongooseModule.forFeature([{name: 'User',
+      schema: UserSchema}]),
   ],
-  providers: [UserService],
+  providers: [UserService,
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    }],
   exports: [UserService],
 })
 export class SharedModule {}
