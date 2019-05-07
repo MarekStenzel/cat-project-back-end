@@ -5,13 +5,15 @@ import { UserSchema } from '../models/user.schema';
 import { HttpExceptionFilter } from './http-exception.filter';
 import { UserService } from './user.service';
 import { LoggingInterceptor } from './logging.interceptor';
+import { UserResolver } from '../resolvers/user.resolver';
+import { AuthService } from '../auth/auth.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{name: 'User',
       schema: UserSchema}]),
   ],
-  providers: [UserService,
+  providers: [UserService, AuthService, UserResolver,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,

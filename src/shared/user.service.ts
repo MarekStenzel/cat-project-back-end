@@ -9,9 +9,9 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(@InjectModel('User') private userModel: Model<User>) {}
 
-  sanitizeUser(user: User) {
-    return user.depopulate('password');
-  }
+  // sanitizeUser(user: User) {
+  //   return user.depopulate('password');
+  // }
 
   async create(userDTO: RegisterDTO) {
     const {username} = userDTO;
@@ -46,5 +46,9 @@ export class UserService {
   async findByPayload(payload: any) {
     const {username} = payload;
     return await this.userModel.findOne({username});
+  }
+
+  async showAll() {
+    return await this.userModel.find();
   }
 }

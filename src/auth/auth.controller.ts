@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UserService } from '../shared/user.service';
 import { Payload } from '../types/payload';
 import { LoginDTO, RegisterDTO } from './auth.dto';
@@ -16,7 +16,7 @@ export class AuthController {
       username: user.username,
     };
     const token = await this.authService.signPayload(payload);
-    return { user, token };
+    return {user, token};
   }
 
   @Post('register')
@@ -27,5 +27,10 @@ export class AuthController {
     };
     const token = await this.authService.signPayload(payload);
     return { user, token };
+  }
+
+  @Get()
+  async findAll() {
+    return await this.userService.showAll();
   }
 }

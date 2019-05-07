@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { GraphQLModule } from '@nestjs/graphql';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SharedModule } from './shared/shared.module';
@@ -7,8 +8,15 @@ import { AuthModule } from './auth/auth.module';
 import 'dotenv/config';
 
 @Module({
-  imports: [MongooseModule.forRoot(process.env.MONGO_URI,
-    { useNewUrlParser: true}), SharedModule, AuthModule],
+  imports: [
+    MongooseModule.forRoot(process.env.MONGO_URI,
+    { useNewUrlParser: true}),
+    GraphQLModule.forRoot({
+      typePaths: ['./**/*.graphql'],
+    }),
+    SharedModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
