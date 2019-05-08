@@ -14,7 +14,6 @@ export class CatController {
   }
 
   @Get()
-  @UseGuards(AuthGuard('jwt'))
   async findAll() {
     return this.catService.findAllCats();
   }

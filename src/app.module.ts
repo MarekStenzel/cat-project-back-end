@@ -15,6 +15,7 @@ import 'dotenv/config';
     { useNewUrlParser: true}),
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
+      context: ({req}) => ({req}),
     }),
     SharedModule,
     AuthModule,
