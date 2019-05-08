@@ -1,0 +1,30 @@
+type Cat {
+    id: String
+    name: String
+    lonely: Boolean
+    popularity: Int
+    created: String
+}
+
+type Query {
+    cats: [Cat]
+}
+
+type Mutation {
+    createCat (name: String!): Cat
+}
+
+input CreateCatInput {
+    name: String
+}
+
+
+#export interface CatDTO {
+#    user: User;
+#    name: string;
+#    photos: Photo[];
+#    comments: Comment[];
+#    lonely: boolean;
+#    popularity: number;
+#    created: Date;
+#}
