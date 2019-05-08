@@ -2,7 +2,7 @@ import { Document } from 'mongoose';
 import { User } from './user';
 import { Comment } from './comment';
 
-interface Photo {
+export interface Photo {
   photo: string;
 }
 

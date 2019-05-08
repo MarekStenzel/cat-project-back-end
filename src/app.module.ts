@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
+import { CatService } from './cat/cat.service';
+import { CatModule } from './cat/cat.module';
 import 'dotenv/config';
 
 @Module({
@@ -16,8 +18,9 @@ import 'dotenv/config';
     }),
     SharedModule,
     AuthModule,
+    CatModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CatService],
 })
 export class AppModule {}
