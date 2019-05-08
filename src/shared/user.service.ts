@@ -9,10 +9,6 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(@InjectModel('User') private userModel: Model<User>) {}
 
-  // sanitizeUser(user: User) {
-  //   return user.depopulate('password');
-  // }
-
   async create(userDTO: RegisterDTO) {
     const {username} = userDTO;
     const user = await this.userModel.findOne({username});
@@ -23,7 +19,6 @@ export class UserService {
     const createdUser = new this.userModel(userDTO);
     await createdUser.save();
     return createdUser;
-    // return this.sanitizeUser(createdUser);
   }
 
   async findByLogin(userDTO: LoginDTO) {
@@ -36,7 +31,6 @@ export class UserService {
 
     if (await bcrypt.compare(password, user.password)) {
       return user;
-      // return this.sanitizeUser(user);
     } else {
       throw new HttpException('Invalid credentials',
         HttpStatus.UNAUTHORIZED);

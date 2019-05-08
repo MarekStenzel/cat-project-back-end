@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CatService } from './cat.service';
 import { CatDTO } from './cat.dto';
 
@@ -7,11 +8,13 @@ export class CatController {
   constructor(private catService: CatService) {}
 
   @Post()
+  @UseGuards(AuthGuard('jwt'))
   async create(@Body() catDTO: CatDTO) {
     return await this.catService.createCat(catDTO);
   }
 
   @Get()
+  @UseGuards(AuthGuard('jwt'))
   async findAll() {
     return this.catService.findAllCats();
   }
