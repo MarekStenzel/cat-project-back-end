@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CatService } from './cat.service';
-import { CatDTO } from './cat.dto';
+import { CatDTO, UpdateCatDTO } from './cat.dto';
 import { User } from '../utilities/user.decorator';
 import { User as UserDocument} from '../types/user';
 
@@ -20,6 +20,15 @@ export class CatController {
   async delete(@Param('id') id: string, @User() user: UserDocument) {
     const { id: userId } = user;
     return await this.catService.deleteCat(id, userId);
+  }
+
+  @Put(':id')
+  @UseGuards(AuthGuard('jwt'))
+  async update(@Param('id') id: string,
+               @Body() cat: UpdateCatDTO,
+               @User() user: UserDocument) {
+    const { id: userId } = user;
+    return await this.catService.updateCat(id, cat, userId);
   }
 
   @Get()

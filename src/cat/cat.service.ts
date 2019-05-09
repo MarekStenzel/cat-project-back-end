@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cat } from '../types/cat';
 import { Model } from 'mongoose';
-import { CreateCatDTO } from './cat.dto';
+import { CreateCatDTO, UpdateCatDTO } from './cat.dto';
 import { User } from '../types/user';
 
 @Injectable()
@@ -32,6 +32,18 @@ export class CatService {
     }
     await catProfile.remove();
     return catProfile.populate('user');
+  }
+
+  async updateCat(id: string, catDTO: UpdateCatDTO, userId: string) {
+    const catProfile = await this.catModel.findById(id);
+    if (userId !== catProfile.user.toString()) {
+      throw new HttpException(
+        `You don't have this cat`,
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+    await catProfile.updateOne(catDTO);
+    return await this.catModel.findById(id).populate('user');
   }
 
 }

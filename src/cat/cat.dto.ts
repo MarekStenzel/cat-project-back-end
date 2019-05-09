@@ -11,9 +11,5 @@ export interface CatDTO {
   created: Date;
 }
 
-// export interface CatDTO {
-//   name: string;
-// }
-
 export type CreateCatDTO = Partial<CatDTO>;
 export type UpdateCatDTO = Partial<CatDTO>;
