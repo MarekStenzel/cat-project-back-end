@@ -11,7 +11,8 @@ type Query {
 }
 
 type Mutation {
-    createCat (name: String!): Cat
+    createCat (name: String!, lonely: Boolean): Cat
+    deleteCat (id: String!): Cat
 }
 
 input CreateCatInput {
