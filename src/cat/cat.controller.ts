@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CatService } from './cat.service';
-import { CatDTO, UpdateCatDTO } from './cat.dto';
+import { CreateCatDTO, UpdateCatDTO } from './cat.dto';
 import { User } from '../utilities/user.decorator';
 import { User as UserDocument} from '../types/user';
 
@@ -11,7 +11,7 @@ export class CatController {
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
-  async create(@Body() catDTO: CatDTO, @User() user: UserDocument) {
+  async create(@Body() catDTO: CreateCatDTO, @User() user: UserDocument) {
     return await this.catService.createCat(catDTO, user);
   }
 

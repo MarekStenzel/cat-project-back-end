@@ -1,11 +1,11 @@
 const axios = require('axios');
 
 (async () => {
-  const { data } = await axios.post('http://localhost:3000/auth/login', {
+  const { data: { token } } = await axios.post('http://localhost:3000/auth/login', {
     username: 'username',
     password: 'password'
   });
-  console.log(data);
+  console.log(token);
   //
   // try {
   //   const {data} = await axios.get('http://localhost:3000/auth', {
