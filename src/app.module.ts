@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { CatService } from './cat/cat.service';
 import { CatModule } from './cat/cat.module';
+import { FoundationModule } from './foundation/foundation.module';
 import 'dotenv/config';
 
 @Module({
@@ -20,6 +21,7 @@ import 'dotenv/config';
     SharedModule,
     AuthModule,
     CatModule,
+    FoundationModule,
   ],
   controllers: [AppController],
   providers: [AppService, CatService],

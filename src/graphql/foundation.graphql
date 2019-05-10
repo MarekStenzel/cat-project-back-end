@@ -1,0 +1,47 @@
+input AddressInput {
+    addr1: String
+    addr2: String
+    city: String
+    state: String
+    country: String
+    zip: String
+}
+
+type Address {
+    addr1: String
+    addr2: String
+    city: String
+    state: String
+    country: String
+    zip: String
+}
+
+type Foundation {
+    id: String
+    name: String
+    email: String
+    address: Address
+    crypto: String
+    created: String
+}
+
+type Query {
+    foundations: [Foundation]
+}
+
+type Mutation {
+    createFoundation (
+        name: String!,
+        email: String,
+        crypto: String,
+        address: AddressInput
+    ): Foundation
+    deleteFoundation (id: String!): Foundation
+    updateFoundation (
+        id: String!,
+        name: String,
+        email: String,
+        crypto: String,
+        address: AddressInput
+    ): Foundation
+}
