@@ -3,6 +3,7 @@ import { UserService } from '../shared/user.service';
 import { AuthService } from '../auth/auth.service';
 import { LoginDTO, RegisterDTO } from '../auth/auth.dto';
 import { Payload } from '../types/payload';
+import { User } from '../types/user';
 
 @Resolver('User')
 export class UserResolver {

@@ -1,15 +1,16 @@
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { CatService } from '../cat/cat.service';
 import { CreateCatDTO, UpdateCatDTO } from '../cat/cat.dto';
-import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../guards/gqlauth.guard';
+import { Cat } from 'src/types/cat';
 
 @Resolver('Cat')
 export class CatResolver {
   constructor(private catService: CatService) {}
 
   @Query()
-  async cats() {
+  async cats(): Promise<Cat[]> {
     return await this.catService.findAllCats();
   }
 
@@ -17,7 +18,7 @@ export class CatResolver {
   @UseGuards(GqlAuthGuard)
   async createCat(@Args('name') name: string,
                   @Args('lonely') lonely: boolean,
-                  @Context() context) {
+                  @Context() context): Promise<Cat> {
     const catProfile: CreateCatDTO = {name, lonely};
     return await this.catService.createCat(catProfile, context.req.user);
   }
@@ -25,7 +26,7 @@ export class CatResolver {
   @Mutation()
   @UseGuards(GqlAuthGuard)
   async deleteCat(@Args('id') id: string,
-                  @Context() context) {
+                  @Context() context): Promise<Cat> {
     const userId = context.req.user._id.toString();
     return await this.catService.deleteCat(id, userId);
   }
@@ -36,7 +37,7 @@ export class CatResolver {
                   @Args('name') name: string,
                   @Args('lonely') lonely: boolean,
                   @Args('popularity') popularity: number,
-                  @Context() context) {
+                  @Context() context): Promise<Cat> {
     let data = {};
     if (name) {
       data = {...data, name};

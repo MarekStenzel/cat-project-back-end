@@ -1,22 +1,23 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { FoundationService } from 'src/foundation/foundation.service';
 import { UseGuards } from '@nestjs/common';
+import { FoundationService } from 'src/foundation/foundation.service';
 import { GqlAuthGuard } from '../guards/gqlauth.guard';
 import { CreateFoundationDTO, UpdateFoundationDTO } from '../foundation/foundation.dto';
 import { Address } from '../types/user';
+import { Foundation } from '../types/foundation';
 
 @Resolver('Foundation')
 export class FoundationResolver {
   constructor(private foundationService: FoundationService) {}
 
   @Query()
-  async foundations() {
+  async foundations(): Promise<Foundation[]> {
     return await this.foundationService.findAll();
   }
 
   @Mutation()
   @UseGuards(GqlAuthGuard)
-  async deleteFoundation(@Args('id') id: string) {
+  async deleteFoundation(@Args('id') id: string): Promise<Foundation> {
     return await this.foundationService.deleteFoundation(id);
   }
 
@@ -25,7 +26,7 @@ export class FoundationResolver {
   async createFoundation(@Args('name') name: string,
                          @Args('email') email: string,
                          @Args('crypto') crypto: string,
-                         @Args('address') address: Address) {
+                         @Args('address') address: Address): Promise<Foundation> {
     const foundationDTO: CreateFoundationDTO = {name, email, crypto, address};
     return await this.foundationService.createFoundation(foundationDTO);
   }
@@ -36,7 +37,7 @@ export class FoundationResolver {
                          @Args('name') name: string,
                          @Args('email') email: string,
                          @Args('crypto') crypto: string,
-                         @Args('address') address: Address) {
+                         @Args('address') address: Address): Promise<Foundation> {
     let data = {};
     if (name) {
       data = {...data, name};

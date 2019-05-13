@@ -9,29 +9,29 @@ export class FoundationService {
   constructor(@InjectModel('Foundation')
               private foundationModel: Model<Foundation>) {}
 
-  async createFoundation(foundationDTO: CreateFoundationDTO) {
+  async createFoundation(foundationDTO: CreateFoundationDTO): Promise<Foundation> {
     const foundation = await this.foundationModel.create(foundationDTO);
     await foundation.save();
     return foundation;
   }
 
-  async updateFoundation(id: string, foundationDTO: UpdateFoundationDTO) {
+  async updateFoundation(id: string, foundationDTO: UpdateFoundationDTO): Promise<Foundation> {
     const foundation = await this.foundationModel.findById(id);
     await foundation.updateOne(foundationDTO);
     return await this.foundationModel.findById(id);
   }
 
-  async deleteFoundation(id: string) {
+  async deleteFoundation(id: string): Promise<Foundation> {
     const foundation = await this.foundationModel.findById(id);
     await foundation.remove();
     return foundation;
   }
 
-  async findAll() {
+  async findAll(): Promise<Foundation[]> {
     return await this.foundationModel.find();
   }
 
-  async findById(id: string) {
+  async findById(id: string): Promise<Foundation> {
     return await this.foundationModel.findById(id);
   }
 }

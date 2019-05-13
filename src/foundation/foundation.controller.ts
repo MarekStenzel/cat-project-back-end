@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, 
 import { AuthGuard } from '@nestjs/passport';
 import { FoundationService } from './foundation.service';
 import { CreateFoundationDTO, UpdateFoundationDTO } from './foundation.dto';
+import { Foundation } from 'src/types/foundation';
 
 @Controller('foundations')
 export class FoundationController {
@@ -9,14 +10,14 @@ export class FoundationController {
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
-  async create(@Body() foundationDTO: CreateFoundationDTO) {
+  async create(@Body() foundationDTO: CreateFoundationDTO): Promise<Foundation> {
     return await this.foundationService.createFoundation(foundationDTO);
   }
 
   @Put(':id')
   @UseGuards(AuthGuard('jwt'))
   async update(@Param('id') id: string,
-               @Body() foundationDTO: UpdateFoundationDTO) {
+               @Body() foundationDTO: UpdateFoundationDTO): Promise<Foundation> {
     const foundation = await this.foundationService.findById(id);
     if (!foundation) {
       throw new HttpException(
@@ -29,7 +30,7 @@ export class FoundationController {
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string): Promise<Foundation> {
     const foundation = await this.foundationService.findById(id);
     if (!foundation) {
       throw new HttpException(
@@ -41,12 +42,12 @@ export class FoundationController {
   }
 
   @Get()
-  async showAll() {
+  async showAll(): Promise<Foundation[]> {
     return await this.foundationService.findAll();
   }
 
   @Get(':id')
-  async read(@Param('id') id: string) {
+  async read(@Param('id') id: string): Promise<Foundation> {
     const foundation = await this.foundationService.findById(id);
     if (!foundation) {
       throw new HttpException(

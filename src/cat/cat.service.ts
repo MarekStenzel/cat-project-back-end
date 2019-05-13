@@ -9,7 +9,7 @@ import { User } from '../types/user';
 export class CatService {
   constructor(@InjectModel('Cat') private catModel: Model<Cat>) {}
 
-  async createCat(catDTO: CreateCatDTO, user: User) {
+  async createCat(catDTO: CreateCatDTO, user: User): Promise<Cat> {
     const catProfile = await this.catModel.create({
       ...catDTO,
       user,
@@ -18,11 +18,11 @@ export class CatService {
     return catProfile.populate('user');
   }
 
-  async findAllCats() {
+  async findAllCats(): Promise<Cat[]> {
     return await this.catModel.find();
   }
 
-  async deleteCat(id: string, userId: string) {
+  async deleteCat(id: string, userId: string): Promise<Cat> {
     const catProfile = await this.catModel.findById(id);
     if (userId !== catProfile.user.toString()) {
       throw new HttpException(
@@ -34,7 +34,7 @@ export class CatService {
     return catProfile.populate('user');
   }
 
-  async updateCat(id: string, catDTO: UpdateCatDTO, userId: string) {
+  async updateCat(id: string, catDTO: UpdateCatDTO, userId: string): Promise<Cat> {
     const catProfile = await this.catModel.findById(id);
     if (userId !== catProfile.user.toString()) {
       throw new HttpException(

@@ -4,6 +4,7 @@ import { CatService } from './cat.service';
 import { CreateCatDTO, UpdateCatDTO } from './cat.dto';
 import { User } from '../utilities/user.decorator';
 import { User as UserDocument} from '../types/user';
+import { Cat } from '../types/cat';
 
 @Controller('cats')
 export class CatController {
@@ -11,13 +12,15 @@ export class CatController {
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
-  async create(@Body() catDTO: CreateCatDTO, @User() user: UserDocument) {
+  async create(@Body() catDTO: CreateCatDTO,
+               @User() user: UserDocument): Promise<Cat> {
     return await this.catService.createCat(catDTO, user);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
-  async delete(@Param('id') id: string, @User() user: UserDocument) {
+  async delete(@Param('id') id: string,
+               @User() user: UserDocument): Promise<Cat> {
     const { id: userId } = user;
     return await this.catService.deleteCat(id, userId);
   }
@@ -26,13 +29,13 @@ export class CatController {
   @UseGuards(AuthGuard('jwt'))
   async update(@Param('id') id: string,
                @Body() cat: UpdateCatDTO,
-               @User() user: UserDocument) {
+               @User() user: UserDocument): Promise<Cat> {
     const { id: userId } = user;
     return await this.catService.updateCat(id, cat, userId);
   }
 
   @Get()
-  async findAll() {
+  async findAll(): Promise<Cat[]> {
     return this.catService.findAllCats();
   }
 
