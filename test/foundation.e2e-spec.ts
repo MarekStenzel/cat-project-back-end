@@ -4,7 +4,7 @@ import * as mongoose from 'mongoose';
 import { RegisterDTO } from '../src/auth/auth.dto';
 import { CreateFoundationDTO } from '../src/foundation/foundation.dto';
 import * as request from 'supertest';
-import { app } from './constants';
+import { app, database } from './constants';
 
 let userToken: string;
 const user: RegisterDTO = {
@@ -13,7 +13,7 @@ const user: RegisterDTO = {
 };
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGO_URI);
+  await mongoose.connect(database);
   await mongoose.connection.db.dropDatabase();
 
   const { data: { token } } = await axios.post('http://localhost:3000/auth/register', {
@@ -27,7 +27,8 @@ afterAll( async done => {
   await mongoose.disconnect(done);
 });
 
-describe('FOUNDATION', () => {
+describe('FOUNDATION',  () => {
+
   const foundation: CreateFoundationDTO = {
     name: 'test foundation',
     email: 'test email',

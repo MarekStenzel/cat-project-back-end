@@ -1,12 +1,11 @@
-import 'dotenv/config';
 import * as request from 'supertest';
 import { LoginDTO, RegisterDTO } from '../src/auth/auth.dto';
 import { HttpStatus } from '@nestjs/common';
 import * as mongoose from 'mongoose';
-import { app } from './constants';
+import { app, database } from './constants';
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGO_URI);
+  await mongoose.connect(database);
   await mongoose.connection.db.dropDatabase();
 });
 
