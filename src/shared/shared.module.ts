@@ -3,6 +3,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from '../models/user.schema';
 import { HttpExceptionFilter } from './http-exception.filter';
+import { GraphQLExceptionFilter } from './gqlexception.filter';
 import { UserService } from './user.service';
 import { LoggingInterceptor } from './logging.interceptor';
 import { UserResolver } from '../resolvers/user.resolver';
@@ -17,6 +18,10 @@ import { AuthService } from '../auth/auth.service';
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: GraphQLExceptionFilter,
     },
     {
       provide: APP_INTERCEPTOR,

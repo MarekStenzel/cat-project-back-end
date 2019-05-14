@@ -5,6 +5,7 @@ export const CommentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+  meme: Boolean,
   text: String,
   created: {
     type: Date,
