@@ -1,0 +1,16 @@
+type Meme {
+    id: String
+    name: String
+    popularity: Int
+    created: String
+}
+
+type Query {
+    memes: [Meme]
+}
+
+type Mutation {
+    createMeme (name: String!): Meme
+    deleteMeme (id: String!): Meme
+    updateMeme (id: String!, name: String, popularity: Int): Meme
+}

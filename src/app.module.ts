@@ -9,6 +9,7 @@ import { CatService } from './cat/cat.service';
 import { CatModule } from './cat/cat.module';
 import { FoundationModule } from './foundation/foundation.module';
 import { CommentModule } from './comment/comment.module';
+import { MemeModule } from './meme/meme.module';
 import 'dotenv/config';
 
 const URI = process.env.NODE_ENV === 'test' ? process.env.MONGO_URI_TEST : process.env.MONGO_URI;
@@ -26,6 +27,7 @@ const URI = process.env.NODE_ENV === 'test' ? process.env.MONGO_URI_TEST : proce
     CatModule,
     FoundationModule,
     CommentModule,
+    MemeModule,
   ],
   controllers: [AppController],
   providers: [AppService, CatService],

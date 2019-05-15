@@ -11,14 +11,6 @@ export const CatSchema = new mongoose.Schema({
       photo: String,
     },
   ],
-  comments: [
-    {
-      comment: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comment',
-      },
-    },
-  ],
   lonely: {
     type: Boolean,
     default: false,
