@@ -17,11 +17,11 @@ import { AuthService } from '../auth/auth.service';
   providers: [UserService, AuthService, UserResolver,
     {
       provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
+      useClass: GraphQLExceptionFilter,
     },
     {
       provide: APP_FILTER,
-      useClass: GraphQLExceptionFilter,
+      useClass: HttpExceptionFilter,
     },
     {
       provide: APP_INTERCEPTOR,
