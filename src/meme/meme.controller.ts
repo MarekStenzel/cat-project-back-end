@@ -5,6 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { MemeService } from './meme.service';
 import { CreateMemeDTO, UpdateMemeDTO } from './meme.dto';
 import { Meme } from 'src/types/meme';
+import { ValidateObjectId } from '../shared/validate-object-id.pipes';
 
 @Controller('memes')
 export class MemeController {
@@ -19,7 +20,7 @@ export class MemeController {
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
-  async delete(@Param('id') id: string,
+  async delete(@Param('id', new ValidateObjectId()) id: string,
                @User() user: UserDocument): Promise<Meme> {
     const { id: userId } = user;
     return await this.memeService.deleteMeme(id, userId);
@@ -27,7 +28,7 @@ export class MemeController {
 
   @Put(':id')
   @UseGuards(AuthGuard('jwt'))
-  async update(@Param('id') id: string,
+  async update(@Param('id', new ValidateObjectId()) id: string,
                @Body() meme: UpdateMemeDTO,
                @User() user: UserDocument): Promise<Meme> {
     const { id: userId } = user;
@@ -40,7 +41,7 @@ export class MemeController {
   }
 
   @Get(':id')
-  async read(@Param('id') id: string): Promise<Meme> {
+  async read(@Param('id', new ValidateObjectId()) id: string): Promise<Meme> {
     const meme = await this.memeService.findById(id);
     if (!meme) {
       throw new HttpException(

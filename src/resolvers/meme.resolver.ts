@@ -4,6 +4,7 @@ import { MemeService } from '../meme/meme.service';
 import { Meme } from 'src/types/meme';
 import { GqlAuthGuard } from '../guards/gqlauth.guard';
 import { CreateMemeDTO, UpdateMemeDTO } from 'src/meme/meme.dto';
+import { ValidateObjectId } from '../shared/validate-object-id.pipes';
 
 @Resolver('Meme')
 export class MemeResolver {
@@ -15,7 +16,7 @@ export class MemeResolver {
   }
 
   @Query()
-  async meme(@Args('id') id: string): Promise<Meme> {
+  async meme(@Args('id', new ValidateObjectId()) id: string): Promise<Meme> {
     return await this.memeService.findById(id);
   }
 
@@ -29,7 +30,7 @@ export class MemeResolver {
 
   @Mutation()
   @UseGuards(GqlAuthGuard)
-  async deleteMeme(@Args('id') id: string,
+  async deleteMeme(@Args('id', new ValidateObjectId()) id: string,
                    @Context() context): Promise<Meme> {
     const userId = context.req.user._id.toString();
     return await this.memeService.deleteMeme(id, userId);
@@ -37,7 +38,7 @@ export class MemeResolver {
 
   @Mutation()
   @UseGuards(GqlAuthGuard)
-  async updateMeme(@Args('id') id: string,
+  async updateMeme(@Args('id', new ValidateObjectId()) id: string,
                    @Args('name') name: string,
                    @Args('popularity') popularity: number,
                    @Context() context): Promise<Meme> {

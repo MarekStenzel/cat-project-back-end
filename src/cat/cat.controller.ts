@@ -5,6 +5,7 @@ import { CreateCatDTO, UpdateCatDTO } from './cat.dto';
 import { User } from '../utilities/user.decorator';
 import { User as UserDocument} from '../types/user';
 import { Cat } from '../types/cat';
+import { ValidateObjectId } from '../shared/validate-object-id.pipes';
 
 @Controller('cats')
 export class CatController {
@@ -19,7 +20,7 @@ export class CatController {
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
-  async delete(@Param('id') id: string,
+  async delete(@Param('id', new ValidateObjectId()) id: string,
                @User() user: UserDocument): Promise<Cat> {
     const { id: userId } = user;
     return await this.catService.deleteCat(id, userId);
@@ -27,7 +28,7 @@ export class CatController {
 
   @Put(':id')
   @UseGuards(AuthGuard('jwt'))
-  async update(@Param('id') id: string,
+  async update(@Param('id', new ValidateObjectId()) id: string,
                @Body() cat: UpdateCatDTO,
                @User() user: UserDocument): Promise<Cat> {
     const { id: userId } = user;
@@ -40,7 +41,7 @@ export class CatController {
   }
 
   @Get(':id')
-  async read(@Param('id') id: string): Promise<Cat> {
+  async read(@Param('id', new ValidateObjectId()) id: string): Promise<Cat> {
     const cat = await this.catService.findById(id);
     if (!cat) {
       throw new HttpException(

@@ -4,6 +4,7 @@ import { CatService } from '../cat/cat.service';
 import { CreateCatDTO, UpdateCatDTO } from '../cat/cat.dto';
 import { GqlAuthGuard } from '../guards/gqlauth.guard';
 import { Cat } from 'src/types/cat';
+import { ValidateObjectId } from '../shared/validate-object-id.pipes';
 
 @Resolver('Cat')
 export class CatResolver {
@@ -15,7 +16,7 @@ export class CatResolver {
   }
 
   @Query()
-  async cat(@Args('id') id: string): Promise<Cat> {
+  async cat(@Args('id', new ValidateObjectId()) id: string): Promise<Cat> {
     return await this.catService.findById(id);
   }
 
@@ -38,7 +39,7 @@ export class CatResolver {
 
   @Mutation()
   @UseGuards(GqlAuthGuard)
-  async updateCat(@Args('id') id: string,
+  async updateCat(@Args('id', new ValidateObjectId()) id: string,
                   @Args('name') name: string,
                   @Args('lonely') lonely: boolean,
                   @Args('popularity') popularity: number,

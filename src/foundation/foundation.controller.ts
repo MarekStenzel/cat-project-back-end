@@ -3,6 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { FoundationService } from './foundation.service';
 import { CreateFoundationDTO, UpdateFoundationDTO } from './foundation.dto';
 import { Foundation } from 'src/types/foundation';
+import { ValidateObjectId } from '../shared/validate-object-id.pipes';
 
 @Controller('foundations')
 export class FoundationController {
@@ -16,7 +17,7 @@ export class FoundationController {
 
   @Put(':id')
   @UseGuards(AuthGuard('jwt'))
-  async update(@Param('id') id: string,
+  async update(@Param('id', new ValidateObjectId()) id: string,
                @Body() foundationDTO: UpdateFoundationDTO): Promise<Foundation> {
     const foundation = await this.foundationService.findById(id);
     if (!foundation) {
@@ -30,7 +31,7 @@ export class FoundationController {
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
-  async delete(@Param('id') id: string): Promise<Foundation> {
+  async delete(@Param('id', new ValidateObjectId()) id: string): Promise<Foundation> {
     const foundation = await this.foundationService.findById(id);
     if (!foundation) {
       throw new HttpException(
@@ -47,7 +48,7 @@ export class FoundationController {
   }
 
   @Get(':id')
-  async read(@Param('id') id: string): Promise<Foundation> {
+  async read(@Param('id', new ValidateObjectId()) id: string): Promise<Foundation> {
     const foundation = await this.foundationService.findById(id);
     if (!foundation) {
       throw new HttpException(

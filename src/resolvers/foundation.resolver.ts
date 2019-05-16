@@ -5,6 +5,7 @@ import { GqlAuthGuard } from '../guards/gqlauth.guard';
 import { CreateFoundationDTO, UpdateFoundationDTO } from '../foundation/foundation.dto';
 import { Address } from '../types/user';
 import { Foundation } from '../types/foundation';
+import { ValidateObjectId } from '../shared/validate-object-id.pipes';
 
 @Resolver('Foundation')
 export class FoundationResolver {
@@ -16,13 +17,13 @@ export class FoundationResolver {
   }
 
   @Query()
-  async foundation(@Args('id') id: string): Promise<Foundation> {
+  async foundation(@Args('id', new ValidateObjectId()) id: string): Promise<Foundation> {
     return await this.foundationService.findById(id);
   }
 
   @Mutation()
   @UseGuards(GqlAuthGuard)
-  async deleteFoundation(@Args('id') id: string): Promise<Foundation> {
+  async deleteFoundation(@Args('id', new ValidateObjectId()) id: string): Promise<Foundation> {
     return await this.foundationService.deleteFoundation(id);
   }
 
@@ -38,7 +39,7 @@ export class FoundationResolver {
 
   @Mutation()
   @UseGuards(GqlAuthGuard)
-  async updateFoundation(@Args('id') id: string,
+  async updateFoundation(@Args('id', new ValidateObjectId()) id: string,
                          @Args('name') name: string,
                          @Args('email') email: string,
                          @Args('crypto') crypto: string,

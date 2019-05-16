@@ -5,6 +5,7 @@ import { User } from '../utilities/user.decorator';
 import { User as UserDocument } from '../types/user';
 import { Comment } from '../types/comment';
 import { CreateCommentDTO, UpdateCommentDTO } from './comment.dto';
+import { ValidateObjectId } from '../shared/validate-object-id.pipes';
 
 @Controller('comments')
 export class CommentController {
@@ -19,7 +20,7 @@ export class CommentController {
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
-  async delete(@Param('id') id: string,
+  async delete(@Param('id', new ValidateObjectId()) id: string,
                @User() user: UserDocument): Promise<Comment> {
     const { id: userId } = user;
     return await this.commentService.deleteComment(id, userId);
@@ -27,7 +28,7 @@ export class CommentController {
 
   @Put(':id')
   @UseGuards(AuthGuard('jwt'))
-  async update(@Param('id') id: string,
+  async update(@Param('id', new ValidateObjectId()) id: string,
                @Body() comment: UpdateCommentDTO,
                @User() user: UserDocument): Promise<Comment> {
     const { id: userId } = user;
@@ -40,7 +41,7 @@ export class CommentController {
   }
 
   @Get(':id')
-  async read(@Param('id') id: string): Promise<Comment> {
+  async read(@Param('id', new ValidateObjectId()) id: string): Promise<Comment> {
     const comment = await this.commentService.findById(id);
     if (!comment) {
       throw new HttpException(

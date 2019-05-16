@@ -4,6 +4,7 @@ import { GqlAuthGuard } from '../guards/gqlauth.guard';
 import { CommentService } from '../comment/comment.service';
 import { Comment } from 'src/types/comment';
 import { CreateCommentDTO, UpdateCommentDTO } from 'src/comment/comment.dto';
+import { ValidateObjectId } from '../shared/validate-object-id.pipes';
 
 @Resolver('Comment')
 export class CommentResolver {
@@ -16,7 +17,7 @@ export class CommentResolver {
   }
 
   @Query()
-  async comment(@Args('id') id: string): Promise<Comment> {
+  async comment(@Args('id', new ValidateObjectId()) id: string): Promise<Comment> {
     return await this.commentService.findById(id);
   }
 
@@ -31,7 +32,7 @@ export class CommentResolver {
 
   @Mutation()
   @UseGuards(GqlAuthGuard)
-  async deleteComment(@Args('id') id: string,
+  async deleteComment(@Args('id', new ValidateObjectId()) id: string,
                       @Context() context): Promise<Comment> {
     const userId = context.req.user._id.toString();
     return await this.commentService.deleteComment(id, userId);
@@ -39,7 +40,7 @@ export class CommentResolver {
 
   @Mutation()
   @UseGuards(GqlAuthGuard)
-  async updateComment(@Args('id') id: string,
+  async updateComment(@Args('id', new ValidateObjectId()) id: string,
                       @Args('text') text: string,
                       @Context() context): Promise<Comment> {
     const commentProfile: UpdateCommentDTO = {text};
