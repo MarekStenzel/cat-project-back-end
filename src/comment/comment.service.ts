@@ -45,4 +45,8 @@ export class CommentService {
   async findAllComments(): Promise<Comment[]> {
     return await this.commentModel.find();
   }
+
+  async findById(id: string): Promise<Comment> {
+    return await this.commentModel.findById(id);
+  }
 }

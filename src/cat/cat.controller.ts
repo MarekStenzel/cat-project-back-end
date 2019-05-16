@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CatService } from './cat.service';
 import { CreateCatDTO, UpdateCatDTO } from './cat.dto';
@@ -37,6 +37,18 @@ export class CatController {
   @Get()
   async findAll(): Promise<Cat[]> {
     return this.catService.findAllCats();
+  }
+
+  @Get(':id')
+  async read(@Param('id') id: string): Promise<Cat> {
+    const cat = await this.catService.findById(id);
+    if (!cat) {
+      throw new HttpException(
+        'Foundation not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return cat;
   }
 
 }

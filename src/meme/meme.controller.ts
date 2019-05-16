@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { User } from '../utilities/user.decorator';
 import { User as UserDocument } from '../types/user';
 import { AuthGuard } from '@nestjs/passport';
@@ -37,5 +37,17 @@ export class MemeController {
   @Get()
   async findAll(): Promise<Meme[]> {
     return this.memeService.findAllMemes();
+  }
+
+  @Get(':id')
+  async read(@Param('id') id: string): Promise<Meme> {
+    const meme = await this.memeService.findById(id);
+    if (!meme) {
+      throw new HttpException(
+        'Meme not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return meme;
   }
 }

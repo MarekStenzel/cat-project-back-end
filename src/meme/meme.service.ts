@@ -18,10 +18,6 @@ export class MemeService {
     return memeProfile.populate('user');
   }
 
-  async findAllMemes(): Promise<Meme[]> {
-    return await this.memeModel.find();
-  }
-
   async deleteMeme(id: string, userId: string): Promise<Meme> {
     const memeProfile = await this.memeModel.findById(id);
     if (userId !== memeProfile.user.toString()) {
@@ -44,5 +40,13 @@ export class MemeService {
     }
     await memeProfile.updateOne(memeDTO);
     return await this.memeModel.findById(id).populate('user');
+  }
+
+  async findAllMemes(): Promise<Meme[]> {
+    return await this.memeModel.find();
+  }
+
+  async findById(id: string): Promise<Meme> {
+    return await this.memeModel.findById(id);
   }
 }

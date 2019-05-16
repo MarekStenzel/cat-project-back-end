@@ -6,6 +6,7 @@ type Meme {
 }
 
 type Query {
+    meme (id: String!): Meme
     memes: [Meme]
 }
 

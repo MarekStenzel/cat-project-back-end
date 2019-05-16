@@ -15,6 +15,11 @@ export class FoundationResolver {
     return await this.foundationService.findAll();
   }
 
+  @Query()
+  async foundation(@Args('id') id: string): Promise<Foundation> {
+    return await this.foundationService.findById(id);
+  }
+
   @Mutation()
   @UseGuards(GqlAuthGuard)
   async deleteFoundation(@Args('id') id: string): Promise<Foundation> {

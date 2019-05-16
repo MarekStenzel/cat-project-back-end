@@ -14,6 +14,11 @@ export class MemeResolver {
     return await this.memeService.findAllMemes();
   }
 
+  @Query()
+  async meme(@Args('id') id: string): Promise<Meme> {
+    return await this.memeService.findById(id);
+  }
+
   @Mutation()
   @UseGuards(GqlAuthGuard)
   async createMeme(@Args('name') name: string,

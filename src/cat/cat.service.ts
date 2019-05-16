@@ -18,10 +18,6 @@ export class CatService {
     return catProfile.populate('user');
   }
 
-  async findAllCats(): Promise<Cat[]> {
-    return await this.catModel.find();
-  }
-
   async deleteCat(id: string, userId: string): Promise<Cat> {
     const catProfile = await this.catModel.findById(id);
     if (userId !== catProfile.user.toString()) {
@@ -44,6 +40,14 @@ export class CatService {
     }
     await catProfile.updateOne(catDTO);
     return await this.catModel.findById(id).populate('user');
+  }
+
+  async findById(id: string): Promise<Cat> {
+    return await this.catModel.findById(id);
+  }
+
+  async findAllCats(): Promise<Cat[]> {
+    return await this.catModel.find();
   }
 
 }

@@ -14,6 +14,11 @@ export class CatResolver {
     return await this.catService.findAllCats();
   }
 
+  @Query()
+  async cat(@Args('id') id: string): Promise<Cat> {
+    return await this.catService.findById(id);
+  }
+
   @Mutation()
   @UseGuards(GqlAuthGuard)
   async createCat(@Args('name') name: string,

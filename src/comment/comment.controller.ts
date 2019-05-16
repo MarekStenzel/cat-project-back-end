@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CommentService } from './comment.service';
 import { User } from '../utilities/user.decorator';
@@ -37,5 +37,17 @@ export class CommentController {
   @Get()
   async findAll(): Promise<Comment[]> {
     return this.commentService.findAllComments();
+  }
+
+  @Get(':id')
+  async read(@Param('id') id: string): Promise<Comment> {
+    const comment = await this.commentService.findById(id);
+    if (!comment) {
+      throw new HttpException(
+        'Comment not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return comment;
   }
 }

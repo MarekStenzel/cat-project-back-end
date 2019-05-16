@@ -15,6 +15,11 @@ export class CommentResolver {
     return await this.commentService.findAllComments();
   }
 
+  @Query()
+  async comment(@Args('id') id: string): Promise<Comment> {
+    return await this.commentService.findById(id);
+  }
+
   @Mutation()
   @UseGuards(GqlAuthGuard)
   async createComment(@Args('text') text: string,
