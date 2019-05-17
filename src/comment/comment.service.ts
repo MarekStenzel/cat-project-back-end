@@ -9,11 +9,22 @@ import { CreateCommentDTO, UpdateCommentDTO } from './comment.dto';
 export class CommentService {
   constructor(@InjectModel('Comment') private commentModel: Model<Comment>) {}
 
-  async createComment(commentDTO: CreateCommentDTO, user: User): Promise<Comment> {
-    const commentProfile = await this.commentModel.create({
-      ...commentDTO,
-      user,
-    });
+  async createComment(id, commentDTO: CreateCommentDTO, user: User): Promise<Comment> {
+    const memeLogic = (commentDTO.meme.toString() === 'true');
+    let commentProfile;
+    if (memeLogic) {
+      commentProfile = await this.commentModel.create({
+        memeId: id,
+        ...commentDTO,
+        user,
+      });
+    } else {
+      commentProfile = await this.commentModel.create({
+        catId: id,
+        ...commentDTO,
+        user,
+      });
+    }
     await commentProfile.save();
     return commentProfile.populate('user');
   }
@@ -48,5 +59,13 @@ export class CommentService {
 
   async findById(id: string): Promise<Comment> {
     return await this.commentModel.findById(id);
+  }
+
+  async findByCatId(id: string) {
+    return await this.commentModel.find({catId: id});
+  }
+
+  async findByMemeId(id: string) {
+    return await this.commentModel.find({memeId: id});
   }
 }

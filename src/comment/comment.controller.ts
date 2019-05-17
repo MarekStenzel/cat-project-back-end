@@ -11,11 +11,12 @@ import { ValidateObjectId } from '../shared/validate-object-id.pipes';
 export class CommentController {
   constructor(private commentService: CommentService) {}
 
-  @Post()
+  @Post('create/:id')
   @UseGuards(AuthGuard('jwt'))
-  async create(@Body() commentDTO: CreateCommentDTO,
+  async create(@Param('id', new ValidateObjectId()) id: string,
+               @Body() commentDTO: CreateCommentDTO,
                @User() user: UserDocument): Promise<Comment> {
-    return await this.commentService.createComment(commentDTO, user);
+    return await this.commentService.createComment(id, commentDTO, user);
   }
 
   @Delete(':id')
@@ -43,6 +44,30 @@ export class CommentController {
   @Get(':id')
   async read(@Param('id', new ValidateObjectId()) id: string): Promise<Comment> {
     const comment = await this.commentService.findById(id);
+    if (!comment) {
+      throw new HttpException(
+        'Comment not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return comment;
+  }
+
+  @Get('cats/:id')
+  async readCatComments(@Param('id', new ValidateObjectId()) id: string): Promise<Comment[]> {
+    const comment = await this.commentService.findByCatId(id);
+    if (!comment) {
+      throw new HttpException(
+        'Comment not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return comment;
+  }
+
+  @Get('memes/:id')
+  async readMemeComments(@Param('id', new ValidateObjectId()) id: string): Promise<Comment[]> {
+    const comment = await this.commentService.findByMemeId(id);
     if (!comment) {
       throw new HttpException(
         'Comment not found',

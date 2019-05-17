@@ -21,13 +21,24 @@ export class CommentResolver {
     return await this.commentService.findById(id);
   }
 
+  @Query()
+  async commentsByCat(@Args('id', new ValidateObjectId()) id: string): Promise<Comment[]> {
+    return await this.commentService.findByCatId(id);
+  }
+
+  @Query()
+  async commentsByMeme(@Args('id', new ValidateObjectId()) id: string): Promise<Comment[]> {
+    return await this.commentService.findByMemeId(id);
+  }
+
   @Mutation()
   @UseGuards(GqlAuthGuard)
-  async createComment(@Args('text') text: string,
+  async createComment(@Args('id', new ValidateObjectId()) id: string,
+                      @Args('text') text: string,
                       @Args('meme') meme: boolean,
                       @Context() context): Promise<Comment> {
     const commentProfile: CreateCommentDTO = {text, meme};
-    return await this.commentService.createComment(commentProfile, context.req.user);
+    return await this.commentService.createComment(id, commentProfile, context.req.user);
   }
 
   @Mutation()
