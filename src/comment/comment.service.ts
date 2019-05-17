@@ -2,23 +2,45 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Comment } from '../types/comment';
+import { Cat } from '../types/cat';
 import { User } from '../types/user';
+import { Meme } from 'src/types/meme';
 import { CreateCommentDTO, UpdateCommentDTO } from './comment.dto';
 
 @Injectable()
 export class CommentService {
-  constructor(@InjectModel('Comment') private commentModel: Model<Comment>) {}
+  constructor(@InjectModel('Comment')
+              private commentModel: Model<Comment>,
+              @InjectModel('Cat')
+              private catModel: Model<Cat>,
+              @InjectModel('Meme')
+              private memeModel: Model<Meme>) {}
 
   async createComment(id, commentDTO: CreateCommentDTO, user: User): Promise<Comment> {
     const memeLogic = (commentDTO.meme.toString() === 'true');
     let commentProfile;
     if (memeLogic) {
+      const memeProfile = await this.memeModel.findById(id);
+      if (!memeProfile) {
+        throw new HttpException(
+          `Meme not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
       commentProfile = await this.commentModel.create({
         memeId: id,
         ...commentDTO,
         user,
       });
     } else {
+      const catProfile = await this.catModel.findById(id);
+      if (!catProfile) {
+        throw new HttpException(
+          `Cat not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
       commentProfile = await this.commentModel.create({
         catId: id,
         ...commentDTO,
@@ -61,11 +83,11 @@ export class CommentService {
     return await this.commentModel.findById(id);
   }
 
-  async findByCatId(id: string) {
+  async findByCatId(id: string): Promise<Comment[]> {
     return await this.commentModel.find({catId: id});
   }
 
-  async findByMemeId(id: string) {
+  async findByMemeId(id: string): Promise<Comment[]> {
     return await this.commentModel.find({memeId: id});
   }
 }

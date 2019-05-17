@@ -82,6 +82,18 @@ describe('COMMENT', () => {
       });
   });
 
+  it('should not create cat comment with valid, but non existing Mongo ID', () => {
+    return request(app)
+      .post(`/comments/create/5cdc2e28de9bb204e54004c0`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .set('Accept', 'application/json')
+      .send(commentCat)
+      .expect(({body}) => {
+        expect(body.message).toEqual('Cat not found');
+      })
+      .expect(404);
+  });
+
   it('should create meme comment', () => {
     return request(app)
       .post(`/comments/create/${memeId}`)
@@ -96,6 +108,27 @@ describe('COMMENT', () => {
         expect(body.memeId).toEqual(memeId);
         expect(body.user.username).toEqual(user.username);
       });
+  });
+
+  it('should not create meme comment with valid, but non existing Mongo ID', () => {
+    return request(app)
+      .post(`/comments/create/5cdc2e28de9bb204e54004c0`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .set('Accept', 'application/json')
+      .send(commentMeme)
+      .expect(({body}) => {
+        expect(body.message).toEqual('Meme not found');
+      })
+      .expect(404);
+  });
+
+  it('should not create comment with invalid Mongo ID', () => {
+    return request(app)
+      .post(`/comments/create/123`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .set('Accept', 'application/json')
+      .send(commentMeme)
+      .expect(400);
   });
 
   it('should update comment', () => {
