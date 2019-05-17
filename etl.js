@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 (async () => {
-  const { data: { token } } = await axios.post('http://localhost:3000/auth/login', {
-    username: 'username',
+  const { data: { token } } = await axios.post('http://localhost:3000/auth/register', {
+    username: 'usernameEtl2',
     password: 'password'
   });
   console.log(token);
@@ -15,5 +15,14 @@ const axios = require('axios');
   // } catch (err) {
   //   console.log(err);
   // }
+
+  const { data } = await axios.post('http://localhost:3000/cats', {
+    name: 'grumpy cat',
+    lonely: false,
+  }, {
+    headers: { Authorization: `Bearer ${token}`},
+  });
+
+  console.log(data._id);
 
 })();

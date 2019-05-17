@@ -13,7 +13,7 @@ const user: RegisterDTO = {
 };
 
 beforeAll(async () => {
-  await mongoose.connect(database);
+  await mongoose.connect(database, { useNewUrlParser: true });
   await mongoose.connection.db.dropDatabase();
 
   const { data: { token } } = await axios.post('http://localhost:3000/auth/register', {

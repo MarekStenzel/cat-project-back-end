@@ -5,7 +5,7 @@ import * as mongoose from 'mongoose';
 import { app, database } from './constants';
 
 beforeAll(async () => {
-  await mongoose.connect(database);
+  await mongoose.connect(database, { useNewUrlParser: true });
   await mongoose.connection.db.dropDatabase();
 });
 
