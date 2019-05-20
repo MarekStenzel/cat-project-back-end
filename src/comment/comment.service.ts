@@ -84,10 +84,12 @@ export class CommentService {
   }
 
   async findByCatId(id: string): Promise<Comment[]> {
-    return await this.commentModel.find({catId: id});
+    return await this.commentModel.find({catId: id})
+      .populate('user');
   }
 
   async findByMemeId(id: string): Promise<Comment[]> {
-    return await this.commentModel.find({memeId: id});
+    return await this.commentModel.find({memeId: id})
+      .populate('user');
   }
 }

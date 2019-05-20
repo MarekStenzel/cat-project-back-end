@@ -131,6 +131,30 @@ describe('COMMENT', () => {
       .expect(400);
   });
 
+  it('should list comments by cat ID', () => {
+    return request(app)
+      .get(`/comments/cats/${catId}`)
+      .expect(({body}) => {
+        expect(body[0]._id).toBeDefined();
+        expect(body[0].catId).toEqual(catId);
+        expect(body[0].text).toEqual(commentCat.text);
+        expect(body[0].meme).toEqual(false);
+        expect(body[0].user.username).toEqual(user.username);
+      });
+  });
+
+  it('should list comments by meme ID', () => {
+    return request(app)
+      .get(`/comments/memes/${memeId}`)
+      .expect(({body}) => {
+        expect(body[0]._id).toBeDefined();
+        expect(body[0].memeId).toEqual(memeId);
+        expect(body[0].text).toEqual(commentMeme.text);
+        expect(body[0].meme).toEqual(true);
+        expect(body[0].user.username).toEqual(user.username);
+      });
+  });
+
   it('should update comment', () => {
     return request(app)
       .put(`/comments/${catCommentId}`)
