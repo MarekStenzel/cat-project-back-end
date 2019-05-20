@@ -1,4 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
+import { GqlArgumentsHost } from '@nestjs/graphql';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -6,21 +7,27 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
-    const status = exception.getStatus ? exception.getStatus()
-      : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const errorResponse = {
-      code: status,
-      timestamp: new Date().toLocaleDateString(),
-      path: request.url,
-      method: request.method,
-      message:
-        status !== HttpStatus.INTERNAL_SERVER_ERROR
-          ? exception.message.error || exception.message ||
-          null
-          : 'Internal Server Error',
-    };
+    if (request) {
+      const status = exception.getStatus ? exception.getStatus()
+        : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    return response.status(status).json(errorResponse);
+      const errorResponse = {
+        code: status,
+        timestamp: new Date().toLocaleDateString(),
+        path: request.url,
+        method: request.method,
+        message:
+          status !== HttpStatus.INTERNAL_SERVER_ERROR
+            ? exception.message.error || exception.message ||
+            null
+            : 'Internal Server Error',
+      };
+
+      return response.status(status).json(errorResponse);
+    } else {
+      const gqlHost = GqlArgumentsHost.create(host);
+      return exception;
+    }
   }
 }

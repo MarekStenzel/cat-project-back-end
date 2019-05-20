@@ -18,11 +18,6 @@ import { AuthService } from '../auth/auth.service';
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
     },
-    // temporary solution to pass E2E tests, GQL Exception Filter blocks HttpExceptionFilter
-    // {
-    //   provide: APP_FILTER,
-    //   useClass: GraphQLExceptionFilter,
-    // },
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
