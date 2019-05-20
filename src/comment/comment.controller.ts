@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CommentService } from './comment.service';
 import { User } from '../utilities/user.decorator';
@@ -37,8 +37,8 @@ export class CommentController {
   }
 
   @Get()
-  async findAll(): Promise<Comment[]> {
-    return this.commentService.findAllComments();
+  async findAll(@Query('page') page: number): Promise<Comment[]> {
+    return this.commentService.findAllComments(page);
   }
 
   @Get(':id')

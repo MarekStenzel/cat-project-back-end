@@ -6,11 +6,12 @@ import { Cat } from '../types/cat';
 import { User } from '../types/user';
 import { Meme } from 'src/types/meme';
 import { CreateCommentDTO, UpdateCommentDTO } from './comment.dto';
+import { PaginateModel } from 'mongoose';
 
 @Injectable()
 export class CommentService {
   constructor(@InjectModel('Comment')
-              private commentModel: Model<Comment>,
+              private commentModel: PaginateModel<Comment>,
               @InjectModel('Cat')
               private catModel: Model<Cat>,
               @InjectModel('Meme')
@@ -75,8 +76,13 @@ export class CommentService {
     return await this.commentModel.findById(id).populate('user');
   }
 
-  async findAllComments(): Promise<Comment[]> {
-    return await this.commentModel.find();
+  async findAllComments(page: number = 1): Promise<Comment[]> {
+    const options = {
+      page,
+      limit: 25,
+    };
+    const paginated = await this.commentModel.paginate({}, options);
+    return paginated.docs;
   }
 
   async findById(id: string): Promise<Comment> {

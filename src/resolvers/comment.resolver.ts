@@ -12,8 +12,8 @@ export class CommentResolver {
   }
 
   @Query()
-  async comments(): Promise<Comment[]> {
-    return await this.commentService.findAllComments();
+  async comments(@Args('page') page: number): Promise<Comment[]> {
+    return await this.commentService.findAllComments(page);
   }
 
   @Query()

@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import * as mongoosePaginate from 'mongoose-paginate-v2';
 
 export const CommentSchema = new mongoose.Schema({
   user: {
@@ -20,3 +21,5 @@ export const CommentSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+CommentSchema.plugin(mongoosePaginate);

@@ -9,7 +9,7 @@ type Comment {
 
 type Query {
     comment (id: String!): Comment
-    comments: [Comment]
+    comments (page: Int): [Comment]
     commentsByCat (id: String!): [Comment]
     commentsByMeme (id: String!): [Comment]
 }
