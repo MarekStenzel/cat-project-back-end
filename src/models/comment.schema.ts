@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import * as mongoosePaginate from 'mongoose-paginate-v2';
+import mongoosePaginate = require('mongoose-paginate-v2');
 
 export const CommentSchema = new mongoose.Schema({
   user: {
