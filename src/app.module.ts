@@ -10,7 +10,12 @@ import { CatModule } from './cat/cat.module';
 import { FoundationModule } from './foundation/foundation.module';
 import { CommentModule } from './comment/comment.module';
 import { MemeModule } from './meme/meme.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { PhotoController } from './photo/photo.controller';
+import { PhotoService } from './photo/photo.service';
+import { PhotoModule } from './photo/photo.module';
 import 'dotenv/config';
+import { MemeService } from './meme/meme.service';
 
 const URI = process.env.NODE_ENV === 'test' ? process.env.MONGO_URI_TEST : process.env.MONGO_URI;
 
@@ -22,14 +27,18 @@ const URI = process.env.NODE_ENV === 'test' ? process.env.MONGO_URI_TEST : proce
       typePaths: ['./**/*.graphql'],
       context: ({req}) => ({req}),
     }),
+    MulterModule.register({
+      dest: './uploads',
+    }),
     SharedModule,
     AuthModule,
     CatModule,
     FoundationModule,
     CommentModule,
     MemeModule,
+    PhotoModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, CatService],
+  controllers: [AppController, PhotoController],
+  providers: [AppService, CatService, PhotoService, MemeService],
 })
 export class AppModule {}
