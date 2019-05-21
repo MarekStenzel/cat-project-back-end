@@ -54,8 +54,9 @@ export class CommentController {
   }
 
   @Get('cats/:id')
-  async readCatComments(@Param('id', new ValidateObjectId()) id: string): Promise<Comment[]> {
-    const comment = await this.commentService.findByCatId(id);
+  async readCatComments(@Param('id', new ValidateObjectId()) id: string,
+                        @Query('page') page: number): Promise<Comment[]> {
+    const comment = await this.commentService.findByCatId(page, id);
     if (!comment) {
       throw new HttpException(
         'Comment not found',
@@ -66,8 +67,9 @@ export class CommentController {
   }
 
   @Get('memes/:id')
-  async readMemeComments(@Param('id', new ValidateObjectId()) id: string): Promise<Comment[]> {
-    const comment = await this.commentService.findByMemeId(id);
+  async readMemeComments(@Param('id', new ValidateObjectId()) id: string,
+                         @Query('page') page: number): Promise<Comment[]> {
+    const comment = await this.commentService.findByMemeId(page, id);
     if (!comment) {
       throw new HttpException(
         'Comment not found',

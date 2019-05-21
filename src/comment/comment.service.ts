@@ -89,13 +89,23 @@ export class CommentService {
     return await this.commentModel.findById(id);
   }
 
-  async findByCatId(id: string): Promise<Comment[]> {
-    return await this.commentModel.find({catId: id})
-      .populate('user');
+  async findByCatId(page: number = 1, id: string): Promise<Comment[]> {
+    const options = {
+      page,
+      limit: 25,
+      populate: 'user',
+    };
+    const paginated = await this.commentModel.paginate({catId: id}, options);
+    return paginated.docs;
   }
 
-  async findByMemeId(id: string): Promise<Comment[]> {
-    return await this.commentModel.find({memeId: id})
-      .populate('user');
+  async findByMemeId(page: number = 1, id: string): Promise<Comment[]> {
+    const options = {
+      page,
+      limit: 25,
+      populate: 'user',
+    };
+    const paginated = await this.commentModel.paginate({memeId: id}, options);
+    return paginated.docs;
   }
 }

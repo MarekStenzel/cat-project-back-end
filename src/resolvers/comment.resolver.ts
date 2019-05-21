@@ -22,13 +22,15 @@ export class CommentResolver {
   }
 
   @Query()
-  async commentsByCat(@Args('id', new ValidateObjectId()) id: string): Promise<Comment[]> {
-    return await this.commentService.findByCatId(id);
+  async commentsByCat(@Args('id', new ValidateObjectId()) id: string,
+                      @Args('page') page: number): Promise<Comment[]> {
+    return await this.commentService.findByCatId(page, id);
   }
 
   @Query()
-  async commentsByMeme(@Args('id', new ValidateObjectId()) id: string): Promise<Comment[]> {
-    return await this.commentService.findByMemeId(id);
+  async commentsByMeme(@Args('id', new ValidateObjectId()) id: string,
+                       @Args('page') page: number): Promise<Comment[]> {
+    return await this.commentService.findByMemeId(page, id);
   }
 
   @Mutation()

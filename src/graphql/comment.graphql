@@ -1,5 +1,6 @@
 type Comment {
     id: String
+    user: User
     catId: String
     memeId: String
     meme: Boolean
@@ -10,8 +11,8 @@ type Comment {
 type Query {
     comment (id: String!): Comment
     comments (page: Int): [Comment]
-    commentsByCat (id: String!): [Comment]
-    commentsByMeme (id: String!): [Comment]
+    commentsByCat (id: String!, page: Int): [Comment]
+    commentsByMeme (id: String!, page: Int): [Comment]
 }
 
 type Mutation {
