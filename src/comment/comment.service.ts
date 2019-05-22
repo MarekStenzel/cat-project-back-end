@@ -80,6 +80,7 @@ export class CommentService {
     const options = {
       page,
       limit: 25,
+      populate: 'user',
     };
     const paginated = await this.commentModel.paginate({}, options);
     return paginated.docs;

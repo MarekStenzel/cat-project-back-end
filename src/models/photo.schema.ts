@@ -27,19 +27,3 @@ export const PhotoSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
-// export interface Photo extends Document {
-//   user: User;
-//   catId: string;
-//   memeId: string;
-//   meme: boolean;
-//   field: string;
-//   name: string;
-//   encoding: string;
-//   mime: string;
-//   destination: string;
-//   filename: string;
-//   path: string;
-//   size: string;
-//   created: Date;
-// }

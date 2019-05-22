@@ -1,12 +1,13 @@
-import { Controller, Get, HttpException, HttpStatus, Param, Post, Res, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Param, Post, Res, UploadedFiles, UseInterceptors, Delete, UseGuards } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { PhotoService } from './photo.service';
 import { CatService } from '../cat/cat.service';
 import { MemeService } from '../meme/meme.service';
 import { ValidateObjectId } from '../shared/validate-object-id.pipes';
 import { User } from '../utilities/user.decorator';
-import { User as UserDocument } from '../types/user';
+import { User as UserDocument} from '../types/user';
 import { Photo } from '../types/photo';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('photos')
 export class PhotoController {
@@ -15,6 +16,7 @@ export class PhotoController {
               private memeService: MemeService) {}
 
   @Post('create/cat/:id')
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FilesInterceptor('image'))
   async uploadCatPhoto(@UploadedFiles() file,
                        @Param('id', new ValidateObjectId()) id: string,
@@ -47,6 +49,7 @@ export class PhotoController {
   }
 
   @Post('create/meme/:id')
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FilesInterceptor('image'))
   async uploadMemePhoto(@UploadedFiles() file,
                         @Param('id', new ValidateObjectId()) id: string,
@@ -96,5 +99,20 @@ export class PhotoController {
   @Get(':imgpath')
   seeUploadedFile(@Param('imgpath') image, @Res() res) {
     return res.sendFile(image, {root: 'uploads'});
+  }
+
+  @Delete('uploads/:filename')
+  @UseGuards(AuthGuard('jwt'))
+  async deletePhoto(@Param('filename') filename: string, @User() user: UserDocument) {
+    const imgpath = `uploads/${filename}`;
+    const photoProfile = await this.photoService.findPhotoByImgPath(imgpath);
+    if (!photoProfile[0]) {
+      throw new HttpException(
+        'Photo not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    const { id: userId } = user;
+    return await this.photoService.deletePhotoById(photoProfile[0]._id, imgpath, userId);
   }
 }

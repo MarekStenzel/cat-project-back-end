@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import * as fs from 'fs';
 import { Model } from 'mongoose';
 import { Cat } from '../types/cat';
 import { Meme } from '../types/meme';
@@ -17,6 +18,13 @@ export class PhotoService {
               private memeModel: Model<Meme>) {}
 
   async addCatPhoto(id: string, photoDTO: CreatePhotoDTO, user: User): Promise<Photo> {
+    const catProfile = await this.catModel.findById(id);
+    if (user._id.toString() !== catProfile.user.toString()) {
+      throw new HttpException(
+        `It's not your cat`,
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
     let photoProfile;
     photoProfile = await this.photoModel.create({
       catId: id,
@@ -28,6 +36,13 @@ export class PhotoService {
   }
 
   async addMemePhoto(id: string, photoDTO: CreatePhotoDTO, user: User): Promise<Photo> {
+    const memeProfile = await this.memeModel.findById(id);
+    if (user._id.toString() !== memeProfile.user.toString()) {
+      throw new HttpException(
+        `It's not your meme`,
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
     let photoProfile;
     photoProfile = await this.photoModel.create({
       memeId: id,
@@ -48,5 +63,22 @@ export class PhotoService {
 
   async findMemePhotos(id: string): Promise<Photo[]> {
     return await this.photoModel.find({memeId: id});
+  }
+
+  async findPhotoByImgPath(imgpath: string): Promise<Photo[]> {
+    return await this.photoModel.find({path: imgpath});
+  }
+
+  async deletePhotoById(id: string, imgpath: string, userId: string): Promise<Photo> {
+    const photoProfile = await this.photoModel.findById(id);
+    if (userId !== photoProfile.user.toString()) {
+      throw new HttpException(
+        `It's not your photo`,
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+    fs.unlinkSync(imgpath);
+    await photoProfile.remove();
+    return photoProfile;
   }
 }

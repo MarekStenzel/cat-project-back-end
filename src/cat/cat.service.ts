@@ -43,11 +43,11 @@ export class CatService {
   }
 
   async findById(id: string): Promise<Cat> {
-    return await this.catModel.findById(id);
+    return await this.catModel.findById(id).populate('user');
   }
 
   async findAllCats(): Promise<Cat[]> {
-    return await this.catModel.find();
+    return await this.catModel.find().populate('user');
   }
 
 }

@@ -184,6 +184,8 @@ fabric.properties
 # Sonarlint plugin
 .idea/sonarlint
 
+# Uploads
+uploads/
+
 # End of https://www.gitignore.io/api/node,linux,webstorm
 
-uploads/

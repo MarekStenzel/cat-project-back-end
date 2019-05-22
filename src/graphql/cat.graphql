@@ -1,5 +1,6 @@
 type Cat {
     id: String
+    user: User
     name: String
     lonely: Boolean
     popularity: Int
