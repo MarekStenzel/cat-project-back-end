@@ -58,11 +58,11 @@ export class PhotoService {
   }
 
   async findCatPhotos(id: string): Promise<Photo[]> {
-    return await this.photoModel.find({catId: id});
+    return await this.photoModel.find({catId: id}).populate('user');
   }
 
   async findMemePhotos(id: string): Promise<Photo[]> {
-    return await this.photoModel.find({memeId: id});
+    return await this.photoModel.find({memeId: id}).populate('user');
   }
 
   async findPhotoByImgPath(imgpath: string): Promise<Photo[]> {
