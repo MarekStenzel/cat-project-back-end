@@ -43,10 +43,10 @@ export class MemeService {
   }
 
   async findAllMemes(): Promise<Meme[]> {
-    return await this.memeModel.find();
+    return await this.memeModel.find().populate('user');
   }
 
   async findById(id: string): Promise<Meme> {
-    return await this.memeModel.findById(id);
+    return await this.memeModel.findById(id).populate('user');
   }
 }

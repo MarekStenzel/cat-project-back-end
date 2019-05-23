@@ -6,11 +6,6 @@ export const CatSchema = new mongoose.Schema({
     ref: 'User',
   },
   name: String,
-  photos: [
-    {
-      photo: String,
-    },
-  ],
   lonely: {
     type: Boolean,
     default: false,

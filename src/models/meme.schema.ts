@@ -6,11 +6,6 @@ export const MemeSchema = new mongoose.Schema({
     ref: 'User',
   },
   name: String,
-  photos: [
-    {
-      photo: String,
-    },
-  ],
   popularity: {
     type: Number,
     default: 0,
