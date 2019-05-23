@@ -131,6 +131,28 @@ describe('PHOTO', () => {
       });
   });
 
+  it('should get photo with cat', () => {
+    const file = 'test/testimage/testcat.jpg';
+    const fileSize = fs.statSync(file).size;
+
+    return request(app)
+      .get(`/photos/${catFileName}`)
+      .expect(({body}) => {
+        expect(body.length).toEqual(fileSize);
+      });
+  });
+
+  it('should get photo with meme', () => {
+    const file = 'test/testimage/testmeme.jpg';
+    const fileSize = fs.statSync(file).size;
+
+    return request(app)
+      .get(`/photos/${memeFileName}`)
+      .expect(({body}) => {
+        expect(body.length).toEqual(fileSize);
+      });
+  });
+
   it('should delete photos', async () => {
 
     await axios.delete(`${app}/photos/uploads/${catFileName}`, {
