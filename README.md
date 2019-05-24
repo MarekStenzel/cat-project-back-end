@@ -1,3 +1,5 @@
+# Cat Project Back-end
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
@@ -28,11 +30,27 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+Simple social portal about cats.
+
+## Requirements
+- NodeJS
+- npm
+- MongoDB
+
 ## Installation
 
 ```bash
 $ npm install
 ```
+
+## Configuration
+
+Copy file `.env.example` and name it `.env`
+
+It contains environment variables required by app to start:
+
+* `MONGO_URI` is a type of MongoDB database for development/production
+* `MONGO_URI_TEST` is a type of MongoDB database for E2E testing
 
 ## Running the app
 
@@ -40,36 +58,23 @@ $ npm install
 # development
 $ npm run start
 
-# watch mode
-$ npm run start:dev
+# test server
+$ npm run start:test
 
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
+# E2E tests
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
-## Support
+#Project 
+* Authenticate users
+* Users can add cats and memes
+* Users can add comments to simple cat or meme
+* Users can upload photos to cat/meme
+* Admin can manage cat foundations
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-  Nest is [MIT licensed](LICENSE).
+#Stack
+* Database - MongoDB
+* Rest API - NestJS
+* GraphQL API - NestJS
+* Rest Frontend - Angular
