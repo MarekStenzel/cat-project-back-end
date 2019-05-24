@@ -66,14 +66,14 @@ $ npm run test
 
 ```
 
-#Project 
+###Project 
 * Authenticate users
 * Users can add cats and memes
 * Users can add comments to simple cat or meme
 * Users can upload photos to cat/meme
 * Admin can manage cat foundations
 
-#Stack
+###Stack
 * Database - MongoDB
 * Rest API - NestJS
 * GraphQL API - NestJS
