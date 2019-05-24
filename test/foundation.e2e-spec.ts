@@ -8,7 +8,7 @@ import { app, database } from './constants';
 
 let userToken: string;
 const user: RegisterDTO = {
-  username: 'usernameF',
+  username: 'username',
   password: 'password',
 };
 
@@ -17,7 +17,7 @@ beforeAll(async () => {
   await mongoose.connection.db.dropDatabase();
 
   const { data: { token } } = await axios.post('http://localhost:3000/auth/register', {
-    username: 'usernameF',
+    username: 'username',
     password: 'password',
   });
   userToken = token;

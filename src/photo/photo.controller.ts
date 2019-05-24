@@ -67,8 +67,7 @@ export class PhotoController {
         HttpStatus.NOT_FOUND,
       );
     }
-    let fileData;
-    fileData = {
+    const fileData = {
       field: file[0].fieldname,
       name: file[0].originalname,
       encoding: file[0].encoding,

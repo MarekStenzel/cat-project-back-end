@@ -17,4 +17,3 @@ export interface PhotoDTO {
 }
 
 export type CreatePhotoDTO = Partial<PhotoDTO>;
-export type UpdatePhotoDTO = Partial<PhotoDTO>;
