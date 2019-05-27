@@ -1,6 +1,6 @@
 {
   "name": "cat-project-back-end",
-  "version": "1.0.0 alpha version",
+  "version": "1.0.0",
   "description": "NestJS Backend for cat social portal",
   "author": "Marek Stenzel",
   "license": "MIT",
