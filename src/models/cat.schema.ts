@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { PhotoSchema } from './photo.schema';
 
 export const CatSchema = new mongoose.Schema({
   user: {
@@ -6,6 +7,7 @@ export const CatSchema = new mongoose.Schema({
     ref: 'User',
   },
   name: String,
+  photos: [PhotoSchema],
   lonely: {
     type: Boolean,
     default: false,

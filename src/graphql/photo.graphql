@@ -1,0 +1,14 @@
+type Photo {
+    user: User
+    catId: String
+    memeId: String
+    field: String
+    name: String
+    encoding: String
+    mime: String
+    destination: String
+    filename: String
+    path: String
+    size: String
+    created: String
+}

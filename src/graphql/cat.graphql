@@ -2,6 +2,7 @@ type Cat {
     id: String
     user: User
     name: String
+    photos: [Photo]
     lonely: Boolean
     popularity: Int
     created: String

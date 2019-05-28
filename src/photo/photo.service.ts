@@ -31,6 +31,9 @@ export class PhotoService {
       ...photoDTO,
       user,
     });
+    const newPhotoTable = catProfile.photos;
+    await catProfile.updateOne({photos: newPhotoTable});
+    await catProfile.save();
     await photoProfile.save();
     return photoProfile.populate('user');
   }

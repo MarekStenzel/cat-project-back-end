@@ -1,5 +1,5 @@
 import { User } from '../types/user';
-import { Photo } from '../types/cat';
+import { Photo } from '../types/photo';
 
 export interface CatDTO {
   user: User;
