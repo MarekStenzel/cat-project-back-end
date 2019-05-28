@@ -96,8 +96,9 @@ export class PhotoController {
   }
 
   @Get(':imgpath')
-  seeUploadedFile(@Param('imgpath') image, @Res() res) {
-    return res.sendFile(image, {root: 'uploads'});
+  async seeUploadedFile(@Param('imgpath') image, @Res() res) {
+    const photo = await this.photoService.findPhotoByImgPath(`uploads/${image}`);
+    return res.sendFile(image, {root: 'uploads', headers: {'Content-Type': photo[0].mime}});
   }
 
   @Delete('uploads/:filename')
