@@ -32,6 +32,7 @@ export class PhotoService {
       user,
     });
     const newPhotoTable = catProfile.photos;
+    newPhotoTable.push(photoProfile);
     await catProfile.updateOne({photos: newPhotoTable});
     await catProfile.save();
     await photoProfile.save();
