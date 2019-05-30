@@ -11,6 +11,7 @@ type Cat {
 type Query {
     cat (id: String!): Cat
     cats: [Cat]
+    lonelyCats: [Cat]
 }
 
 type Mutation {

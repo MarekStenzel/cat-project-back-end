@@ -50,4 +50,8 @@ export class CatService {
     return await this.catModel.find().populate('user');
   }
 
+  async findLonelyCats(): Promise<Cat[]> {
+    return await this.catModel.find({lonely: true}).populate('user');
+  }
+
 }

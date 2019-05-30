@@ -16,6 +16,11 @@ export class CatResolver {
   }
 
   @Query()
+  async lonelyCats(): Promise<Cat[]> {
+    return await this.catService.findLonelyCats();
+  }
+
+  @Query()
   async cat(@Args('id', new ValidateObjectId()) id: string): Promise<Cat> {
     return await this.catService.findById(id);
   }

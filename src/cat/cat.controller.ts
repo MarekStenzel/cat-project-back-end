@@ -40,6 +40,11 @@ export class CatController {
     return this.catService.findAllCats();
   }
 
+  @Get('lonely')
+  async findLonelyCats(): Promise<Cat[]> {
+    return this.catService.findLonelyCats();
+  }
+
   @Get(':id')
   async read(@Param('id', new ValidateObjectId()) id: string): Promise<Cat> {
     const cat = await this.catService.findById(id);
