@@ -1,5 +1,8 @@
+import { Photo } from '../types/photo';
+
 export interface FoundationDTO {
   name: string;
+  photos: Photo[];
   email: string;
   address: {
     addr1: string,

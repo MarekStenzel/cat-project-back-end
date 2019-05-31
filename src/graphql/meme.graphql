@@ -2,6 +2,7 @@ type Meme {
     id: String
     user: User
     name: String
+    photos: [Photo]
     popularity: Int
     created: String
 }

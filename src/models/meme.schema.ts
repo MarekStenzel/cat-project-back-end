@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { PhotoSchema } from './photo.schema';
 
 export const MemeSchema = new mongoose.Schema({
   user: {
@@ -6,6 +7,7 @@ export const MemeSchema = new mongoose.Schema({
     ref: 'User',
   },
   name: String,
+  photos: [PhotoSchema],
   popularity: {
     type: Number,
     default: 0,

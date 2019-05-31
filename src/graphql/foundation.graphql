@@ -19,6 +19,7 @@ type Address {
 type Foundation {
     id: String
     name: String
+    photos: [Photo]
     email: String
     address: Address
     crypto: String

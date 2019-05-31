@@ -53,6 +53,10 @@ export class PhotoService {
       ...photoDTO,
       user,
     });
+    const newPhotoTable = memeProfile.photos;
+    newPhotoTable.push(photoProfile);
+    await memeProfile.updateOne({photos: newPhotoTable});
+    await memeProfile.save();
     await photoProfile.save();
     return photoProfile.populate('user');
   }

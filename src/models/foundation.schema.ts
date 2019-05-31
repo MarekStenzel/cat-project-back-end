@@ -1,7 +1,9 @@
 import * as mongoose from 'mongoose';
+import { PhotoSchema } from './photo.schema';
 
 export const FoundationSchema = new mongoose.Schema({
   name: String,
+  photos: [PhotoSchema],
   email: String,
   address: {
     addr1: String,

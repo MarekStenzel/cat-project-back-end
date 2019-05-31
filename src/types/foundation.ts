@@ -1,4 +1,5 @@
 import { Document } from 'mongoose';
+import { Photo } from './photo';
 
 interface Address {
   addr1: string;
@@ -11,6 +12,7 @@ interface Address {
 
 export interface Foundation extends Document {
   name: string;
+  photos: Photo[];
   email: string;
   address: Address;
   crypto: string;
